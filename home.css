@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>나만의 홈페이지</title>
+
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+
+    <!-- 공통 메뉴 -->
+    <header id="site-header"></header>
+
+    <main class="container">
+
+        <section class="card">
+            <h1>😊 환영합니다!</h1>
+
+            <p>
+                이 홈페이지는 게임도 즐기고 공부도 할 수 있는
+                개인 홈페이지입니다.
+            </p>
+
+            <p>
+                위 메뉴를 눌러 원하는 페이지로 이동해보세요.
+            </p>
+        </section>
+
+        <section class="card-grid">
+
+            <article class="card game-card">
+                <h2>🎮 게임하러 가기</h2>
+
+                <p>
+                    재미있는 게임들을 즐길 수 있습니다.
+                </p>
+
+                <a class="btn" href="pages/games.html">
+                    게임 보러가기
+                </a>
+            </article>
+
+            <article class="card study-card">
+                <h2>📚 공부하러가기</h2>
+
+                <p>
+                    공부에 도움이 되는 다양한 콘텐츠를 이용할 수 있습니다.
+                </p>
+
+                <a class="btn" href="pages/study.html">
+                    공부하러가기
+                </a>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer>
+        © 2026 My Website
+    </footer>
+
+    <script src="js/header.js"></script>
+
+</body>
+</html>
