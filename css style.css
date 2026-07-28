@@ -1,0 +1,608 @@
+/*
+파일:
+/css/style.css
+*/
+
+/* ===========================
+   기본 설정
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --sky:#eef9ff;
+    --white:#ffffff;
+    --yellow:#ffd54f;
+    --orange:#ffb74d;
+    --pink:#ff8fb1;
+    --blue:#63b7ff;
+    --text:#444444;
+
+    --shadow:0 8px 24px rgba(0,0,0,.08);
+    --radius:22px;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    font-family:
+    Pretendard,
+    "Malgun Gothic",
+    sans-serif;
+
+    background:
+    linear-gradient(
+        to bottom,
+        #eef9ff,
+        #ffffff
+    );
+
+    color:var(--text);
+
+    min-height:100vh;
+
+}
+
+a{
+
+    text-decoration:none;
+    color:inherit;
+
+}
+
+img{
+
+    max-width:100%;
+
+}
+
+/* ===========================
+   Hero
+=========================== */
+
+.hero{
+
+    width:90%;
+    max-width:1100px;
+
+    margin:40px auto;
+
+    background:white;
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
+    text-align:center;
+
+    padding:70px 40px;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.hero::before{
+
+    content:"🌼";
+
+    position:absolute;
+
+    top:15px;
+    left:20px;
+
+    font-size:90px;
+
+    opacity:.08;
+
+}
+
+.hero::after{
+
+    content:"🌸";
+
+    position:absolute;
+
+    right:20px;
+    bottom:10px;
+
+    font-size:90px;
+
+    opacity:.08;
+
+}
+
+.hero h1{
+
+    color:#ff9f1c;
+
+    font-size:3rem;
+
+    margin-bottom:15px;
+
+}
+
+.hero p{
+
+    font-size:1.1rem;
+
+    line-height:1.8;
+
+}
+
+/* ===========================
+   메인 카드
+=========================== */
+
+.home{
+
+    width:90%;
+    max-width:1100px;
+
+    margin:45px auto;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(320px,1fr)
+    );
+
+    gap:28px;
+
+}
+
+.main-card{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:40px;
+
+    box-shadow:var(--shadow);
+
+    text-align:center;
+
+    transition:.25s;
+
+}
+
+.main-card:hover{
+
+    transform:
+    translateY(-8px);
+
+}
+
+.main-card .emoji{
+
+    font-size:64px;
+
+    margin-bottom:20px;
+
+}
+
+.main-card h2{
+
+    color:#ff9f1c;
+
+    margin-bottom:15px;
+
+    font-size:2rem;
+
+}
+
+.main-card p{
+
+    line-height:1.8;
+
+    min-height:60px;
+
+}
+
+.go{
+
+    display:inline-block;
+
+    margin-top:28px;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--yellow),
+        var(--orange)
+    );
+
+    color:white;
+
+    padding:14px 28px;
+
+    border-radius:999px;
+
+    font-weight:bold;
+
+    transition:.25s;
+
+}
+
+.main-card:hover .go{
+
+    transform:scale(1.05);
+
+}
+/* ===========================
+   메인 메뉴
+=========================== */
+
+.home{
+
+    width:90%;
+    max-width:1100px;
+
+    margin:50px auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+
+    gap:30px;
+
+}
+
+.main-card{
+
+    display:block;
+
+    background:#fff;
+
+    border-radius:24px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+
+}
+
+.main-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.main-card .emoji{
+
+    font-size:64px;
+
+    margin-bottom:20px;
+
+}
+
+.main-card h2{
+
+    color:#ff9f1c;
+
+    margin-bottom:15px;
+
+}
+
+.main-card p{
+
+    line-height:1.8;
+
+    min-height:60px;
+
+}
+
+.go{
+
+    display:inline-block;
+
+    margin-top:25px;
+
+    padding:14px 30px;
+
+    border-radius:999px;
+
+    background:linear-gradient(135deg,var(--yellow),var(--orange));
+
+    color:white;
+
+    font-weight:bold;
+
+    transition:.25s;
+
+}
+
+.main-card:hover .go{
+
+    transform:scale(1.05);
+
+}
+
+/* ===========================
+   소개
+=========================== */
+
+.about{
+
+    width:90%;
+
+    max-width:1100px;
+
+    margin:10px auto 60px;
+
+    background:#fff;
+
+    border-radius:24px;
+
+    box-shadow:var(--shadow);
+
+    padding:35px;
+
+    text-align:center;
+
+}
+
+.about h3{
+
+    color:#ff9f1c;
+
+    margin-bottom:15px;
+
+}
+
+.about p{
+
+    line-height:1.8;
+
+}
+/* ===========================
+   게임 / 공부 목록
+=========================== */
+
+.list-page{
+
+    width:90%;
+
+    max-width:1100px;
+
+    margin:50px auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+
+    gap:28px;
+
+}
+
+.content-card{
+
+    display:block;
+
+    background:#ffffff;
+
+    border-radius:24px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+
+}
+
+.content-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.icon{
+
+    font-size:64px;
+
+    margin-bottom:20px;
+
+}
+
+.content-card h2{
+
+    color:#ff9f1c;
+
+    margin-bottom:15px;
+
+    font-size:1.8rem;
+
+}
+
+.content-card p{
+
+    line-height:1.8;
+
+    min-height:70px;
+
+    color:#555;
+
+}
+
+/* ===========================
+   하단 버튼
+=========================== */
+
+.bottom-menu{
+
+    width:90%;
+
+    max-width:1100px;
+
+    margin:20px auto 60px;
+
+    text-align:center;
+
+}
+
+.back-btn{
+
+    display:inline-block;
+
+    padding:14px 34px;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        135deg,
+        var(--yellow),
+        var(--orange)
+    );
+
+    color:#fff;
+
+    font-weight:bold;
+
+    transition:.25s;
+
+    box-shadow:var(--shadow);
+
+}
+
+.back-btn:hover{
+
+    transform:translateY(-4px);
+
+}
+
+/* ===========================
+   작은 애니메이션
+=========================== */
+
+.main-card,
+.content-card,
+.back-btn{
+
+    cursor:pointer;
+
+}
+
+.main-card:hover,
+.content-card:hover{
+
+    box-shadow:
+    0 14px 32px rgba(0,0,0,.12);
+
+}
+/* ===========================
+   Footer
+=========================== */
+
+footer{
+
+    margin-top:40px;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    color:#777;
+
+    font-size:.95rem;
+
+}
+
+/* ===========================
+   공통 애니메이션
+=========================== */
+
+.main-card,
+.content-card,
+.back-btn,
+.go{
+
+    transition:
+        transform .25s,
+        box-shadow .25s,
+        background .25s;
+
+}
+
+.main-card:hover,
+.content-card:hover{
+
+    box-shadow:
+        0 16px 36px rgba(0,0,0,.12);
+
+}
+
+.go:hover,
+.back-btn:hover{
+
+    filter:brightness(1.05);
+
+}
+
+/* ===========================
+   공통 제목
+=========================== */
+
+.hero h1,
+.main-card h2,
+.content-card h2,
+.about h3{
+
+    letter-spacing:-0.5px;
+
+}
+
+/* ===========================
+   공통 문단
+=========================== */
+
+.hero p,
+.main-card p,
+.content-card p,
+.about p{
+
+    color:#555;
+
+}
+
+/* ===========================
+   링크
+=========================== */
+
+.main-card,
+.content-card{
+
+    color:inherit;
+
+}
+
+/* ===========================
+   페이지 여백
+=========================== */
+
+body{
+
+    padding-bottom:30px;
+
+}
