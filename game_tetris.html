@@ -1,0 +1,628 @@
+<!--
+파일:
+/pages/game_tetris.html
+-->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>테트리스 | Play & Study</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:"Malgun Gothic",sans-serif;
+background:linear-gradient(#dff6ff,#fefefe);
+}
+
+.container{
+width:900px;
+margin:30px auto;
+display:flex;
+justify-content:center;
+gap:40px;
+}
+
+.panel{
+background:#fff;
+padding:20px;
+border-radius:20px;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+h1{
+text-align:center;
+margin-bottom:15px;
+color:#ff9800;
+}
+
+canvas{
+background:#111;
+border-radius:10px;
+display:block;
+}
+
+.side{
+width:220px;
+}
+
+.score{
+font-size:24px;
+font-weight:bold;
+margin:15px 0;
+}
+
+button{
+width:100%;
+padding:12px;
+font-size:18px;
+border:none;
+border-radius:12px;
+background:#ffb300;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#ff9800;
+}
+
+.info{
+margin-top:20px;
+line-height:1.8;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="panel">
+
+<h1>🧱 테트리스</h1>
+
+<canvas id="game" width="300" height="600"></canvas>
+
+</div>
+
+<div class="panel side">
+
+<h2>점수</h2>
+
+<div class="score" id="score">
+0
+</div>
+
+<h2>다음 블록</h2>
+
+<canvas id="next" width="120" height="120"></canvas>
+
+<button id="restart">
+다시 시작
+</button>
+
+<div class="info">
+
+← → 이동<br>
+↑ 회전<br>
+↓ 빠르게 내리기<br>
+Space 즉시 떨어뜨리기
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const COLS=10;
+const ROWS=20;
+const SIZE=30;
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+const nextCanvas=document.getElementById("next");
+const nextCtx=nextCanvas.getContext("2d");
+
+const scoreElement=document.getElementById("score");
+
+let score=0;
+
+const COLORS=[
+null,
+"#00e5ff",
+"#2962ff",
+"#ff9100",
+"#ffee58",
+"#66bb6a",
+"#ab47bc",
+"#ef5350"
+];
+
+const SHAPES=[
+
+[],
+
+[
+[1,1,1,1]
+],
+
+[
+[2,0,0],
+[2,2,2]
+],
+
+[
+[0,0,3],
+[3,3,3]
+],
+
+[
+[4,4],
+[4,4]
+],
+
+[
+[0,5,5],
+[5,5,0]
+],
+
+[
+[0,6,0],
+[6,6,6]
+],
+
+[
+[7,7,0],
+[0,7,7]
+]
+
+];
+
+let board=[];
+
+function createBoard(){
+
+board=[];
+
+for(let y=0;y<ROWS;y++){
+
+board.push(new Array(COLS).fill(0));
+
+}
+
+}
+
+createBoard();
+
+function randomPiece(){
+
+const id=Math.floor(Math.random()*7)+1;
+
+return{
+
+id,
+
+shape:SHAPES[id],
+
+x:3,
+
+y:0
+
+};
+
+}
+
+let current=randomPiece();
+
+let next=randomPiece();
+
+function drawCell(x,y,color){
+
+ctx.fillStyle=color;
+
+ctx.fillRect(
+
+x*SIZE,
+y*SIZE,
+SIZE-1,
+SIZE-1
+
+);
+
+}
+function drawBoard(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    for(let y=0;y<ROWS;y++){
+
+        for(let x=0;x<COLS;x++){
+
+            if(board[y][x]){
+
+                drawCell(
+                    x,
+                    y,
+                    COLORS[board[y][x]]
+                );
+
+            }
+
+        }
+
+    }
+
+}
+
+function drawPiece(piece){
+
+    piece.shape.forEach((row,y)=>{
+
+        row.forEach((value,x)=>{
+
+            if(value){
+
+                drawCell(
+
+                    piece.x+x,
+
+                    piece.y+y,
+
+                    COLORS[value]
+
+                );
+
+            }
+
+        });
+
+    });
+
+}
+
+function drawNext(){
+
+    nextCtx.clearRect(
+        0,
+        0,
+        nextCanvas.width,
+        nextCanvas.height
+    );
+
+    next.shape.forEach((row,y)=>{
+
+        row.forEach((value,x)=>{
+
+            if(value){
+
+                nextCtx.fillStyle=COLORS[value];
+
+                nextCtx.fillRect(
+
+                    x*28+18,
+
+                    y*28+18,
+
+                    26,
+
+                    26
+
+                );
+
+            }
+
+        });
+
+    });
+
+}
+
+function collide(piece){
+
+    for(let y=0;y<piece.shape.length;y++){
+
+        for(let x=0;x<piece.shape[y].length;x++){
+
+            if(!piece.shape[y][x]) continue;
+
+            const px=piece.x+x;
+
+            const py=piece.y+y;
+
+            if(px<0||px>=COLS) return true;
+
+            if(py>=ROWS) return true;
+
+            if(py>=0&&board[py][px]) return true;
+
+        }
+
+    }
+
+    return false;
+
+}
+
+function rotate(piece){
+
+    const old=piece.shape;
+
+    const rotated=[];
+
+    for(let x=0;x<old[0].length;x++){
+
+        rotated[x]=[];
+
+        for(let y=old.length-1;y>=0;y--){
+
+            rotated[x].push(old[y][x]);
+
+        }
+
+    }
+
+    piece.shape=rotated;
+
+    if(collide(piece)){
+
+        piece.shape=old;
+
+    }
+
+}
+
+function move(dx){
+
+    current.x+=dx;
+
+    if(collide(current)){
+
+        current.x-=dx;
+
+    }
+
+}
+
+function softDrop(){
+
+    current.y++;
+
+    if(collide(current)){
+
+        current.y--;
+
+        merge();
+
+    }
+
+}
+
+function hardDrop(){
+
+    while(!collide(current)){
+
+        current.y++;
+
+    }
+
+    current.y--;
+
+    merge();
+
+}
+function merge(){
+
+    current.shape.forEach((row,y)=>{
+
+        row.forEach((value,x)=>{
+
+            if(value){
+
+                board[current.y+y][current.x+x]=value;
+
+            }
+
+        });
+
+    });
+
+    clearLines();
+
+    current=next;
+
+    next=randomPiece();
+
+    drawNext();
+
+    if(collide(current)){
+
+        alert("게임 오버!");
+
+        createBoard();
+
+        score=0;
+
+        scoreElement.textContent=score;
+
+        current=randomPiece();
+
+        next=randomPiece();
+
+        drawNext();
+
+    }
+
+}
+
+function clearLines(){
+
+    let lines=0;
+
+    for(let y=ROWS-1;y>=0;y--){
+
+        let full=true;
+
+        for(let x=0;x<COLS;x++){
+
+            if(board[y][x]===0){
+
+                full=false;
+
+                break;
+
+            }
+
+        }
+
+        if(full){
+
+            board.splice(y,1);
+
+            board.unshift(new Array(COLS).fill(0));
+
+            lines++;
+
+            y++;
+
+        }
+
+    }
+
+    if(lines){
+
+        score+=lines*100;
+
+        scoreElement.textContent=score;
+
+    }
+
+}
+
+function update(){
+
+    softDrop();
+
+    draw();
+
+}
+
+function draw(){
+
+    drawBoard();
+
+    drawPiece(current);
+
+}
+
+document.addEventListener("keydown",(e)=>{
+
+    switch(e.key){
+
+        case "ArrowLeft":
+
+            move(-1);
+
+            break;
+
+        case "ArrowRight":
+
+            move(1);
+
+            break;
+
+        case "ArrowDown":
+
+            softDrop();
+
+            break;
+
+        case "ArrowUp":
+
+            rotate(current);
+
+            break;
+
+        case " ":
+
+            e.preventDefault();
+
+            hardDrop();
+
+            break;
+
+    }
+
+    draw();
+
+});
+
+document.getElementById("restart").onclick=()=>{
+
+    createBoard();
+
+    score=0;
+
+    scoreElement.textContent=score;
+
+    current=randomPiece();
+
+    next=randomPiece();
+
+    drawNext();
+
+    draw();
+
+};
+
+drawNext();
+
+draw();
+
+setInterval(update,500);
+// 게임 루프 관리
+let gameLoop = setInterval(update, 500);
+
+function resetGame() {
+
+    clearInterval(gameLoop);
+
+    createBoard();
+
+    score = 0;
+    scoreElement.textContent = score;
+
+    current = randomPiece();
+    next = randomPiece();
+
+    drawNext();
+    draw();
+
+    gameLoop = setInterval(update, 500);
+
+}
+
+// 다시 시작 버튼
+document
+.getElementById("restart")
+.addEventListener("click", resetGame);
+
+// 첫 화면 출력
+drawNext();
+draw();
+
+</script>
+
+</body>
+</html>
