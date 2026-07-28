@@ -1,0 +1,100 @@
+/*
+파일:
+/css/style.css
+*/
+
+/* ===== 헤더 ===== */
+.site-header{
+position:sticky;
+top:0;
+z-index:1000;
+background:linear-gradient(90deg,#87cefa,#bfefff);
+box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+.site-header nav{
+max-width:1100px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 20px;
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+color:#fff;
+text-decoration:none;
+text-shadow:1px 1px 3px rgba(0,0,0,.2);
+}
+
+.menu{
+display:flex;
+gap:18px;
+list-style:none;
+margin:0;
+padding:0;
+}
+
+.menu>li{
+position:relative;
+}
+
+.menu a{
+display:block;
+padding:10px 18px;
+border-radius:30px;
+text-decoration:none;
+font-weight:bold;
+background:#fff;
+color:#333;
+transition:.25s;
+}
+
+.menu a:hover{
+background:#ffe680;
+transform:translateY(-2px);
+}
+
+.dropdown{
+display:none;
+position:absolute;
+top:48px;
+left:0;
+min-width:180px;
+background:#fff;
+border-radius:14px;
+box-shadow:0 10px 20px rgba(0,0,0,.15);
+overflow:hidden;
+}
+
+.dropdown a{
+border-radius:0;
+background:#fff;
+}
+
+.dropdown a:hover{
+background:#fff3b3;
+}
+
+.menu li:hover .dropdown{
+display:block;
+}
+
+@media(max-width:768px){
+.site-header nav{
+flex-direction:column;
+gap:12px;
+}
+.menu{
+flex-wrap:wrap;
+justify-content:center;
+}
+.dropdown{
+position:static;
+display:block;
+box-shadow:none;
+margin-top:6px;
+}
+}
